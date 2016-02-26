@@ -1,380 +1,199 @@
-# [ngBoilerplate](http://joshdmiller.github.com/ng-boilerplate) [![Build Status](https://api.travis-ci.org/ngbp/ngbp.png?branch=v0.3.2-release)](https://travis-ci.org/ngbp/ngbp)
+[![Build Status](https://secure.travis-ci.org/angular-app/angular-app.png)](http://travis-ci.org/angular-app/angular-app)
 
-An opinionated kickstarter for [AngularJS](http://angularjs.org) projects.
+# [AngularJS](http://www.angularjs.org/) CRUD application demo
 
 ***
 
-## Quick Start
-
-Install Node.js and then:
-
-```sh
-$ git clone git://github.com/joshdmiller/ng-boilerplate
-$ cd ng-boilerplate
-$ sudo npm -g install grunt-cli karma bower
-$ npm install
-$ bower install
-$ grunt watch
-```
-
-Finally, open `file:///path/to/ng-boilerplate/build/index.html` in your browser.
-
-Happy hacking!
-
 ## Purpose
 
-`ngBoilerplate` is designed to make life easy by providing a basic framework
-with which to kickstart AngularJS projects. It contains a best-practice
-directory structure to ensure code reusability and maximum scalability.
-ngBoilerplate also comes prepackaged with the most popular design frameworks
-around: [Twitter Bootstrap](http://getbootstrap.com),
-[Angular UI](http://angular-ui.github.io),
-[Angular Bootstrap](http://angular-ui.github.io/bootstrap),
-[Font Awesome](http://fortawesome.github.com/Font-Awesome), and
-[LESS](http://lesscss.org). Lastly, it contains a sophisticated
-[Grunt](http://gruntjs.org)-based build system to ensure maximum productivity.
-All you have to do is clone it and start coding!
+The idea is to **demonstrate how to write a typical, non-trivial CRUD application using AngularJS**. To showcase AngularJS in its most advantageous environment we've set out to write a simplified project management tool supporting teams using the SCRUM methodology. The sample application tries to show best practices when it comes to: folders structure, using modules, testing, communicating with a REST back-end, organizing navigation, addressing security concerns (authentication / authorization).
 
-## Philosophy
+This sample application is featured in our [book](http://goo.gl/gKEsIo) where you can find detailed description of the patterns and techniques used to write this code:
 
-The principal goal of `ngBoilerplate` is to set projects up for long-term
-success.  So `ngBoilerplate` tries to follow best practices everywhere it can.
-These are:
+<a href="http://goo.gl/gKEsIo"><img src="http://www.packtpub.com/sites/default/files/1820OS.jpg"></a>
 
-- Properly orchestrated modules to encourage drag-and-drop component re-use.
-- Tests exist alongside the component they are testing with no separate `test`
-  directory required; the build process should be sophisticated enough to handle
-  this.
-- Speaking of which, the build system should work automagically, without
-  involvement from the developer. It should do what needs to be done, while
-  staying out of the way. Components should end up tested, linted, compiled,
-  and minified, ready for use in a production environment.
-- Integration with popular tools like Bower, Karma, and LESS.
-- *Encourages* test-driven development. It's the only way to code.
-- A directory structure that is cogent, meaningful to new team members, and
-  supporting of the above points.
-- Well-documented, to show new developers *why* things are set up the way they
-  are.
-- It should be responsive to evidence. Community feedback is therefore crucial
-  to the success of `ngBoilerplate`.
+We've learned a lot while using and supporting AngularJS on the [mailing list](https://groups.google.com/group/angular) and would like to share our experience.
 
-But `ngBoilerplate` is not an example of an AngularJS app: this is a
-kickstarter. If you're looking for an example of what a complete, non-trivial
-AngularJS app that does something real looks like, complete with a REST backend
-and authentication and authorization, then take a look at
-[`angular-app`](http://github.com/angular-app/angular-app), which does just
-that - and does it well.
+## Stack
 
-## Learn
+* Persistence store: [MongoDB](http://www.mongodb.org/) hosted on [MongoLab](https://mongolab.com/)
+* Backend: [Node.js](http://nodejs.org/)
+* Awesome [AngularJS](http://www.angularjs.org/) on the client
+* CSS based on [Twitter's bootstrap](http://getbootstrap.com/)
 
-### Overall Directory Structure
+### Build
 
-At a high level, the structure looks roughly like this:
+It is a complete project with a build system focused on AngularJS apps and tightly integrated with other tools commonly used in the AngularJS community:
+* powered by [Grunt.js](http://gruntjs.com/)
+* test written using [Jasmine](http://jasmine.github.io/) syntax
+* test are executed by [Karma Test Runner](http://karma-runner.github.io/0.8/index.html) (integrated with the Grunt.js build)
+* build supporting JS, CSS and AngularJS templates minification
+* [Twitter's bootstrap](http://getbootstrap.com/) with LESS templates processing integrated into the build
+* [Travis-CI](https://travis-ci.org/) integration
+
+## Installation
+
+### Platform & tools
+
+You need to install Node.js and then the development tools. Node.js comes with a package manager called [npm](http://npmjs.org) for installing NodeJS applications and libraries.
+* [Install node.js](http://nodejs.org/download/) (requires node.js version >= 0.8.4)
+* Install Grunt-CLI and Karma as global npm modules:
+
+    ```
+    npm install -g grunt-cli karma
+    ```
+
+(Note that you may need to uninstall grunt 0.3 globally before installing grunt-cli)
+
+### Get the Code
+
+Either clone this repository or fork it on GitHub and clone your fork:
 
 ```
-ng-boilerplate/
-  |- grunt-tasks/
-  |- karma/
-  |- src/
-  |  |- app/
-  |  |  |- <app logic>
-  |  |- assets/
-  |  |  |- <static files>
-  |  |- common/
-  |  |  |- <reusable code>
-  |  |- less/
-  |  |  |- main.less
-  |- vendor/
-  |  |- angular-bootstrap/
-  |  |- bootstrap/
-  |  |- placeholders/
-  |- .bowerrc
-  |- bower.json
-  |- build.config.js
-  |- Gruntfile.js
-  |- module.prefix
-  |- module.suffix
-  |- package.json
+git clone https://github.com/angular-app/angular-app.git
+cd angular-app
 ```
 
-What follows is a brief description of each entry, but most directories contain
-their own `README.md` file with additional documentation, so browse around to
-learn more.
+### App Server
 
-- `karma/` - test configuration.
-- `src/` - our application sources. [Read more &raquo;](src/README.md)
-- `vendor/` - third-party libraries. [Bower](http://bower.io) will install
-  packages here. Anything added to this directory will need to be manually added
-  to `build.config.js` and `karma/karma-unit.js` to be picked up by the build
-  system.
-- `.bowerrc` - the Bower configuration file. This tells Bower to install
-  components into the `vendor/` directory.
-- `bower.json` - this is our project configuration for Bower and it contains the
-  list of Bower dependencies we need.
-- `build.config.js` - our customizable build settings; see "The Build System"
-  below.
-- `Gruntfile.js` - our build script; see "The Build System" below.
-- `module.prefix` and `module.suffix` - our compiled application script is
-  wrapped in these, which by default are used to place the application inside a
-  self-executing anonymous function to ensure no clashes with other libraries.
-- `package.json` - metadata about the app, used by NPM and our build script. Our
-  NPM dependencies are listed here.
+Our backend application server is a NodeJS application that relies upon some 3rd Party npm packages.  You need to install these:
 
-### Detailed Installation
+* Install local dependencies (from the project root folder):
 
-This section provides a little more detailed understanding of what goes into
-getting `ngBoilerplate` up and running. Though `ngBoilerplate` is really simple
-to use, it might help to have an understanding of the tools involved here, like
-Node.js and Grunt and Bower. If you're completely new to highly organized,
-modern JavaScript development, take a few short minutes to read [this overview
-of the tools](tools.md) before continuing with this section.
+    ```
+    cd server
+    npm install
+    cd ..
+    ```
 
-Okay, ready to go? Here it is:
+  (This will install the dependencies declared in the server/package.json file)
 
-`ngBoilerplate` uses [Grunt](http://gruntjs.org) as its build system, so
-[Node.js](http://nodejs.org) is required. Also, Grunt by default no longer comes
-with a command-line utility and Karma and Bower must end up in your global path
-for the build system to find it, so they must be installed independently. Once
-you have Node.js installed, you can simply use `npm` to make it all happen:
+### Client App
 
-```sh
-$ npm -g install grunt-cli karma bower
+Our client application is a straight HTML/Javascript application but our development process uses a Node.js build tool
+[Grunt.js](gruntjs.com). Grunt relies upon some 3rd party libraries that we need to install as local dependencies using npm.
+
+* Install local dependencies (from the project root folder):
+
+    ```
+    cd client
+    npm install
+    cd ..
+    ```
+
+  (This will install the dependencies declared in the client/package.json file)
+
+## Building
+
+### Configure Server
+The server stores its data in a MongoLab database.
+* Create an account at MongoLab - it's free: [https://mongolab.com/signup/].
+* Create a database to use for this application: [https://mongolab.com/create]
+* Grab your API key: [https://mongolab.com/user?username=YOUR_USERNAME_HERE]
+* Edit `server/config.js` to set your MongoLab API Key and the name of the database you created.
+
+    ```
+    mongo: {
+        dbUrl: 'https://api.mongolab.com/api/1',    // The base url of the MongoLab DB server
+        apiKey: 'YOUR_API_KEY_HERE',                // Our MongoLab API key
+    },
+    security: {
+        dbName: 'YOUR_DB_NAME_HERE',                // The name of database that contains the security information
+        usersCollection: 'users'                    // The name of the collection contains user information
+    },
+    ```
+
+* Optionally change the name of admin user in `server/lib/initDB.js`.  The default is 'Admin' (admin@abc.com : changeme). 
+
+    ```
+    var initDB = {
+      adminUser: { email: 'admin@abc.com', password: 'changeme', admin: true, firstName: 'Admin', lastName: 'User' },
+    });
+    // Note the user information, including password, are stored as plain text in the MongoLab database.
+    ```
+
+* Run our initialization script to initialize the database with a first admin user (admin@abc.com : changeme).
+
+    ```
+    node server/initDB.js
+    ```
+
+### Configure Client
+The client specifies the name of the MongoDB to use in `client/src/app/app.js`.  If your DB is not called "ascrum" then you need to change the MONGOLAB_CONFIG constant:
+
+```
+angular.module('app').constant('MONGOLAB_CONFIG', {
+  baseUrl: '/databases/',
+  dbName: 'ascrum'
+});
 ```
 
-If you're on Linux (like I am) then throw `sudo` in front of that command.  If
-you're on Windows, then you're on your own.
+### Build the client app
+The app made up of a number of javascript, css and html files that need to be merged into a final distribution for running.  We use the Grunt build tool to do this.
+* Build client application:
 
-Next, you can either clone this repository using Git, download it as a zip file
-from GitHub, or merge the branch into your existing repository. Assuming you're
-starting from scratch, simply clone this repository using git:
+    ```
+    cd client
+    grunt build
+    cd ..
+    ```
 
-```sh
-$ git clone git://github.com/joshdmiller/ng-boilerplate my-project-name
-$ cd my-project-name
-```
+*It is important to build again if you have changed the client configuration as above.*
 
-And then install the remaining build dependencies locally:
+## Running
+### Start the Server
+* Run the server
 
-```sh
-$ npm install
-```
+    ```
+    cd server
+    node server.js
+    cd ..
+    ```
+* Browse to the application at [http://localhost:3000]
+* Login with the admin user as defined in `server/lib/initDB.js`. 
 
-This will read the `dependencies` (empty by default) and the `devDependencies`
-(which contains our build requirements) from `package.json` and install
-everything needed into a folder called `node_modules/`.
+## Browser Support
+We only regularly test against Chrome 29 and occasionally against Firefox and Internet Explorer.
+The application should run on most modern browsers that are supported by the AngularJS framework.
+Obviously, if you chose to base your application on this one, then you should ensure you do your own
+testing against browsers that you need to support.
 
-There are many Bower packages used by `ngBoilerplate`, like Twitter Bootstrap
-and Angular UI, which are listed in `bower.js`. To install them into the
-`vendor/` directory, simply run:
+## Development
 
-```sh
-$ bower install
-```
+### Folders structure
+At the top level, the repository is split into a client folder and a server folder.  The client folder contains all the client-side AngularJS application.  The server folder contains a very basic Express based webserver that delivers and supports the application.
+Within the client folder you have the following structure:
+* `node_modules` contains build tasks for Grunt along with other, user-installed, Node packages
+* `dist` contains build results
+* `src` contains application's sources
+* `test` contains test sources, configuration and dependencies
+* `vendor` contains external dependencies for the application
 
-In the future, should you want to add a new Bower package to your app, run the
-`install` command:
+### Default Build
+The default grunt task will build (checks the javascript (lint), runs the unit tests (test:unit) and builds distributable files) and run all unit tests: `grunt` (or `grunt.cmd` on Windows).  The tests are run by karma and need one or more browsers open to actually run the tests.
+* `cd client`
+* `grunt`
+* Open one or more browsers and point them to [http://localhost:8080/__test/].  Once the browsers connect the tests will run and the build will complete.
+* If you leave the browsers open at this url then future runs of `grunt` will automatically run the tests against these browsers.
 
-```sh
-$ bower install packagename --save-dev
-```
+### Continuous Building
+The watch grunt task will monitor the source files and run the default build task every time a file changes: `grunt watch`.
 
-The `--save-dev` flag tells Bower to add the package at its current version to
-our project's `bower.js` file so should another developer download our
-application (or we download it from a different computer), we can simply run the
-`bower install` command as above and all our dependencies will be installed for
-us. Neat!
+### Build without tests
+If for some reason you don't want to run the test but just generate the files - not a good idea(!!) - you can simply run the build task: `grunt build`.
 
-Technically, `ngBoilerplate` is now ready to go.
+### Building release code
+You can build a release version of the app, with minified files.  This task will also run the "end to end" (e2e) tests.
+The e2e tests require the server to be started and also one or more browsers open to run the tests.  (You can use the same browsers as for the unit tests.)
+* `cd client`
+* Run `grunt release`
+* Open one or more browsers and point them to [http://localhost:8080/__test/].  Once the browsers connect the tests will run and the build will complete.
+* If you leave the browsers open at this url then future runs of `grunt` will automatically run the tests against these browsers.
 
-However, prior to hacking on your application, you will want to modify the
-`package.json` file to contain your project's information. Do not remove any
-items from the `devDependencies` array as all are needed for the build process
-to work.
+### Continuous testing
+You can have grunt (karma) continuously watch for file changes and automatically run all the tests on every change, without rebuilding the distribution files.  This can make the test run faster when you are doing test driven development and don't need to actually run the application itself.
 
-To ensure your setup works, launch grunt:
-
-```sh
-$ grunt watch
-```
-
-The built files are placed in the `build/` directory by default. Open the
-`build/index.html` file in your browser and check it out! Because everything is
-compiled, no XHR requests are needed to retrieve templates, so until this needs
-to communicate with your backend there is no need to run it from a web server.
-
-`watch` is actually an alias of the `grunt-contrib-watch` that will first run a
-partial build before watching for file changes. With this setup, any file that
-changes will trigger only those build tasks necessary to bring the app up to
-date. For example, when a template file changes, the templates are recompiled
-and concatenated, but when a test/spec file changes, only the tests are run.
-This allows the watch command to complete in a fraction of the time it would
-ordinarily take.
-
-In addition, if you're running a Live Reload plugin in your browser (see below),
-you won't even have to refresh to see the changes! When the `watch` task detects
-a file change, it will reload the page for you. Sweet.
-
-When you're ready to push your app into production, just run the `compile`
-command:
-
-```sh
-$ grunt compile
-```
-
-This will concatenate and minify your sources and place them by default into the
-`bin/` directory. There will only be three files: `index.html`,
-`your-app-name.js`, and `your-app-name.css`. All of the vendor dependencies like
-Bootstrap styles and AngularJS itself have been added to them for super-easy
-deploying. If you use any assets (`src/assets/`) then they will be copied to
-`bin/` as is.
-
-Lastly, a complete build is always available by simply running the default
-task, which runs `build` and then `compile`:
-
-```sh
-$ grunt
-```
-
-### The Build System
-
-The best way to learn about the build system is by familiarizing yourself with
-Grunt and then reading through the heavily documented build script,
-`Gruntfile.js`. But you don't need to do that to be very productive with
-`ngBoilerplate`. What follows in this section is a quick introduction to the
-tasks provided and should be plenty to get you started.
-
-The driver of the process is the `delta` multi-task, which watches for file
-changes using `grunt-contrib-watch` and executes one of nine tasks when a file
-changes:
-
-* `delta:gruntfile` - When `Gruntfile.js` changes, this task runs the linter
-  (`jshint`) on that one file and reloads the configuration.
-* `delta:assets` - When any file within `src/assets/` changes, all asset files
-  are copied to `build/assets/`.
-* `delta:html` - When `src/index.html` changes, it is compiled as a Grunt
-  template, so script names, etc., are dynamically replaced with the correct
-  values configured dynamically by Grunt.
-* `delta:less` - When any `*.less` file within `src/` changes, the
-  `src/less/main.less` file is linted and copied into
-  `build/assets/ng-boilerplate.css`.
-* `delta:jssrc` - When any JavaScript file within `src/` that does not end in
-  `.spec.js` changes, all JavaScript sources are linted, all unit tests are run,
-  and the all source files are re-copied to `build/src`.
-* `delta:coffeesrc` - When any `*.coffee` file in `src/` that doesn't match
-  `*.spec.coffee` changes, the Coffee scripts are compiled independently into
-  `build/src` in a structure mirroring where they were in `src/` so it's easy to
-  locate problems. For example, the file
-  `src/common/titleService/titleService.coffee` is compiled to
-  `build/src/common/titleService/titleService.js`.
-* `delta:tpls` - When any `*.tpl.html` file within `src/` changes, all templates
-  are put into strings in a JavaScript file (technically two, one for
-  `src/common/` and another for `src/app/`) that will add the template to
-  AngularJS's
-  [`$templateCache`](http://docs.angularjs.org/api/ng.$templateCache) so
-  template files are part of the initial JavaScript payload and do not require
-  any future XHR.  The template cache files are `build/template-app.js` and
-  `build/template-common.js`.
-* `delta:jsunit` - When any `*.spec.js` file in `src/` changes, the test files
-  are linted and the unit tests are executed.
-* `delta:coffeeunit` - When any `*.spec.coffee` file in `src/` changes, the test
-  files are linted, compiled their tests executed.
-
-As covered in the previous section, `grunt watch` will execute a full build
-up-front and then run any of the aforementioned `delta:*` tasks as needed to
-ensure the fastest possible build. So whenever you're working on your project,
-start with:
-
-```sh
-$ grunt watch
-```
-
-And everything will be done automatically!
-
-### Build vs. Compile
-
-To make the build even faster, tasks are placed into two categories: build and
-compile. The build tasks (like those we've been discussing) are the minimal
-tasks required to run your app during development.
-
-Compile tasks, however, get your app ready for production. The compile tasks
-include concatenation, minification, compression, etc. These tasks take a little
-bit longer to run and are not at all necessary for development so are not called
-automatically during build or watch.
-
-To initiate a full compile, you simply run the default task:
-
-```sh
-$ grunt
-```
-
-This will perform a build and then a compile. The compiled site - ready for
-uploading to the server! - is located in `bin/`, taking a cue from
-traditional software development. To test that your full site works as
-expected, open the `bin/index.html` file in your browser. Voila!
-
-### Live Reload!
-
-`ngBoilerplate` also includes [Live Reload](http://livereload.com/), so you no
-longer have to refresh your page after making changes! You need a Live Reload
-browser plugin for this:
-
-- Chrome - [Chrome Webstore](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei)
-- Firefox - [Download from Live Reload](http://download.livereload.com/2.0.8/LiveReload-2.0.8.xpi)
-- Safari - [Download from Live Reload](http://download.livereload.com/2.0.9/LiveReload-2.0.9.safariextz)
-- Internet Explorer - Surely you jest.
-
-Note that if you're using the Chrome version with `file://` URLs (as is the
-default with `ngBoilerplate`) you need to tell Live Reload to allow it. Go to
-`Menu -> Tools -> Extensions` and check the "Allow access to file URLs" box next
-to the Live Reload plugin.
-
-When you load your page, click the Live Reload icon in your toolbar and
-everything should work magically. w00t!
-
-If you'd prefer to not install a browser extension, then you must add the
-following to the end of the `body` tag in `index.html`:
-
-```html
-<script src="http://localhost:35729/livereload.js"></script>
-```
-
-Boom!
-
-## Roadmap
-
-This is a project that is not broad in scope, so there's not really much of a
-wish list here. But I would like to see a couple of things:
-
-I'd like it to be a little simpler. I want this to be a universal starting
-point. If someone is starting a new AngularJS project, she should be able to
-clone, merge, or download its source and immediately start doing what she needs
-without renaming a bunch of files and methods or deleting spare parts. What I
-have works for a first release, but I just think there is a little too much here
-right now.
-
-I'd also like to see a simple generator. Nothing like Yeoman, as there already
-is one of those, but just something that allows the user to say "I want
-Bootstrap but not Font Awesome and my app is called 'coolApp'. Gimme." Perhaps a
-custom download builder like UI Bootstrap has. Like that. Then again, perhaps
-some Yeoman generators wouldn't be out of line. I don't know. What do you think?
-
-Naturally, I am open to all manner of ideas and suggestions. See the
-"Contributing" section below.
-
-### To Do
-
-See the [issues list](http://github.com/joshdmiller/ng-boilerplate/issues). And
-feel free to submit your own!
-
-### Contributing
-
-This is an opinionated kickstarter, but the opinions are fluid and
-evidence-based. Don't like the way I did something? Think you know of a better
-way? Have an idea to make this more useful? Let me know! You can contact me
-through all the usual channels or you can open an issue on the GitHub page. If
-you're feeling ambitious, you can even submit a pull request - how thoughtful
-of you!
-
-Make sure to check out the [Contributing Guide](./CONTRIBUTING.md).
-
-So join the team! We're good people.
+* `cd client`
+* Run `grunt test-watch`.
+* Open one or more browsers and point them to [http://localhost:8080/__test/].
+* Each time a file changes the tests will be run against each browser.
